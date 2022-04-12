@@ -5,6 +5,9 @@ following the paper Attention is all you need with a
 few minor differences. I tried to make it as clear as
 possible to understand and also went through the code
 on my youtube channel!
+参考：
+1) https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/more_advanced/transformer_from_scratch/transformer_from_scratch.py
+2) docs 类关系图
 """
 
 import torch
