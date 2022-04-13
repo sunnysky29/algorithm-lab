@@ -30,7 +30,7 @@ class TF_IDF_Model(object):
         self.init()
 
     def init(self):
-        df = {}
+        word_document_number = {}  # 词文档数
         for document in self.documents_list:
             temp = {}
             for word in document:
@@ -38,8 +38,8 @@ class TF_IDF_Model(object):
                 temp[word] = temp.get(word, 0) + 1/len(document)
             self.tf.append(temp)
             for key in temp.keys():
-                df[key] = df.get(key, 0) + 1 # 统计每个词的文档频率
-        for key, value in df.items():
+                word_document_number[key] = word_document_number.get(key, 0) + 1 # 统计每个词的文档频率
+        for key, value in word_document_number.items():
             # 每个词的逆文档频率
             self.idf[key] = np.log(self.documents_number / (value + 1))
         for i in self.tf:
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     print(tf_idf_model.documents_number)
     print(tf_idf_model.tf)
     print(tf_idf_model.idf)
-    print(tf_idf_model.tf_idf)
+    print('\ntf-idf:', tf_idf_model.tf_idf)
 
     query = "我在微信上被骗了，请问被骗多少钱才可以立案？"
     query = list(jieba.cut(query))
