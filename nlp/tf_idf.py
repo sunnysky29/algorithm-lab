@@ -45,14 +45,17 @@ class TF_IDF_Model(object):
         for i in self.tf:
             self.tf_idf.append({k:v*self.idf[k] for k,v in i.items()})
 
-
     def get_score(self, index, query):
         """计算（query, 待查询文档的）相似度"""
         score = 0.0
         doc_i_tfidf = self.tf_idf[index]
+        print(f'--'*30)
+        print(f'query：{query}')
+        print(f'{self.documents_list[index]}')
         for q in query:
             if q not in doc_i_tfidf:
                 continue
+            print(f'{q}, 分数：{doc_i_tfidf[q]}')
             score += doc_i_tfidf[q]
         return score
 
@@ -79,7 +82,7 @@ if __name__ == "__main__":
     print(tf_idf_model.documents_number)
     print(tf_idf_model.tf)
     print(tf_idf_model.idf)
-    print('\ntf-idf:', tf_idf_model.tf_idf)
+    print('tf-idf:\n', tf_idf_model.tf_idf)
 
     query = "我在微信上被骗了，请问被骗多少钱才可以立案？"
     query = list(jieba.cut(query))
