@@ -5,7 +5,7 @@ Time : 2022/5/15 11:10
 File : fnn_lm.py
 
 前馈神经网络语言模型
-
+结构： https://github.com/dufy29/algorithm-lab/blob/main/nlp/language_model/README.md
 
 
 ==============================================================================
