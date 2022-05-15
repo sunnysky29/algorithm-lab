@@ -6,7 +6,7 @@ File : fnn_lm.py
 
 前馈神经网络语言模型
 结构： https://github.com/dufy29/algorithm-lab/blob/main/nlp/language_model/README.md
-
+注意，数据准备构建过程，参考DataLoader 说明：https://github.com/dufy29/ai-frame/blob/main/pytorch/%E6%A8%A1%E5%9D%97%E4%BB%8B%E7%BB%8D.ipynb
 
 ==============================================================================
 """
