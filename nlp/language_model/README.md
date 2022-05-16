@@ -34,3 +34,7 @@ class FeedForwardNNLM(nn.Module):
         return log_probs
 ~~~
 
+
+
+参考：
+- https://github.com/HIT-SCIR/plm-nlp-code
