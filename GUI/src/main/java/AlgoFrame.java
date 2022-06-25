@@ -32,28 +32,38 @@ public class AlgoFrame extends JFrame {
     public int getCanvasWidth(){return canvasWidth;}
     public int getCanvasHeight(){return canvasHeight;}
 
+    private Circle[] circles;
+    public void render(Circle[] circles){
+        this.circles = circles;
+        repaint();
+    }
+
     // 画布
     private class AlgoCanvas extends JPanel{
+//        public AlgoCanvas(){
+//            super(true); // 双缓存
+//        }
 
         @Override
         public void paintComponent(Graphics g){
             super.paintComponent(g);
 
-//            g.drawOval(50, 50, 300,300); //绘圆
             Graphics2D g2d = (Graphics2D)g;  // 强制类型转换
 
-            int strokeWidth =10;
-            g2d.setStroke(new BasicStroke(strokeWidth));
+            // 抗锯齿
+            RenderingHints hints = new RenderingHints(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.addRenderingHints(hints);
 
-            g2d.setColor(Color.RED);
-            Ellipse2D circle = new Ellipse2D.Double(50, 50, 300,300);
-            g2d.draw(circle);
+            // 具体绘制
+            AlgoVisHelper.setStrokeWidth(g2d, 5);  //设置线条宽度
 
-            g2d.setColor(Color.blue);
-            Ellipse2D circle2= new Ellipse2D.Double(50,50,300,280);
-            g2d.draw(circle2);
+            AlgoVisHelper.setColor(g2d, Color.red);
+            for(Circle circle:circles)
+                AlgoVisHelper.strokeCircle(g2d, circle.x, circle.y, circle.getR());
 
-//            g2d.fill(circle2);
+
 
         }
 
