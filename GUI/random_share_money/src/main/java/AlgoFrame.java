@@ -33,9 +33,9 @@ public class AlgoFrame extends JFrame {
     public int getCanvasHeight(){return canvasHeight;}
 
     // 设置自己的数据
-    private Circle[] circles;
-    public void render(Circle[] circles){
-        this.circles = circles;
+    private int[] money;
+    public void render(int[] money){
+        this.money =money;
         repaint();
     }
 
@@ -58,13 +58,19 @@ public class AlgoFrame extends JFrame {
             g2d.addRenderingHints(hints);
 
             // 具体绘制
-            AlgoVisHelper.setStrokeWidth(g2d, 5);  //设置线条宽度
-            AlgoVisHelper.setColor(g2d, Color.red);
-            for(Circle circle:circles)
-                if(!circle.isFilled)
-                    AlgoVisHelper.strokeCircle(g2d, circle.x, circle.y, circle.getR());
-                else
-                    AlgoVisHelper.fillCircle(g2d, circle.x, circle.y, circle.getR());
+            int w= canvasWidth / money.length;
+            for(int i=0; i<money.length; i++){
+                if(money[i]>0){
+                    AlgoVisHelper.setColor(g2d, AlgoVisHelper.Blue);
+                    AlgoVisHelper.fillRectangle(g2d,
+                            i*w+1, canvasHeight/2-money[i], w-1, money[i]);
+                }
+                else if(money[i]<0){
+                    AlgoVisHelper.setColor(g2d, AlgoVisHelper.Red);
+                    AlgoVisHelper.fillRectangle(g2d,
+                            i*w+1, canvasHeight/2, w-1, -money[i]);
+                }
+            }
 
         }
 
