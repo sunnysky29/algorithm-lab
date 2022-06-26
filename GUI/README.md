@@ -24,6 +24,12 @@ paper:[Statistical mechanics of money](http://physics.umd.edu/~yakovenk/papers/E
 
 
 
+## 2.蒙特卡洛方法
+
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h3lr7cma8gj20uh0u0jtx.jpg" alt="image-20220626170341056" style="zoom:33%;" />
+
+
+
 
 
 
@@ -31,3 +37,5 @@ paper:[Statistical mechanics of money](http://physics.umd.edu/~yakovenk/papers/E
 参考：
 
 1. [终于有人用七大经典游戏讲透了高级算法与数据结构！来自高级算法工程师的压迫感！（蒙特卡洛算法/排序/随机队列/Java架构/Java进阶）](https://www.bilibili.com/video/BV1cS4y1v7rc?p=18&spm_id_from=pageDriver&vd_source=abeb4ad4122e4eff23d97059cf088ab4)
+
+2. github: https://github.com/liuyubobobo/Play-with-Algorithm-Visualization

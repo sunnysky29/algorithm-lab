@@ -22,6 +22,7 @@
     </build>
     <modules>
         <module>random_share_money</module>
+        <module>MonteCarlo</module>
     </modules>
 
 
