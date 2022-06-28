@@ -355,9 +355,24 @@ void analogies(const std::vector<std::string> args) {
   exit(0);
 }
 
+void print_args(Args a){
+  // 打印最终的初始化参数
+  std::cout << "参数解析...." << std::endl;
+  std::cout << "\tminCount: " << a.minCount << std::endl;
+  std::cout << "\tminn: " << a.minn << std::endl;
+  std::cout << "\tmaxn: " << a.maxn << std::endl;
+  std::cout << "\tlr: " << a.lr << std::endl;
+  std::cout << "\tepoch: " << a.epoch << std::endl;
+
+  std::cout << "参数解析结束" << std::endl;
+}
+
 void train(const std::vector<std::string> args) {
+  std::cout << "train()" << std::endl;
   Args a = Args();
   a.parseArgs(args);
+  print_args(a);
+
   std::shared_ptr<FastText> fasttext = std::make_shared<FastText>();
   std::string outputFileName;
 
