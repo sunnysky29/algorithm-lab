@@ -55,20 +55,7 @@ int32_t Dictionary::find(const std::string& w, uint32_t h) const {
   return id;
 }
 
-void Dictionary::add(const std::string& w) {
-  int32_t h = find(w);
-  ntokens_++;
-  if (word2int_[h] == -1) {
-    entry e;
-    e.word = w;
-    e.count = 1;
-    e.type = getType(w);
-    words_.push_back(e);
-    word2int_[h] = size_++;
-  } else {
-    words_[word2int_[h]].count++;
-  }
-}
+
 
 int32_t Dictionary::nwords() const {
   return nwords_;
@@ -184,6 +171,8 @@ void Dictionary::computeSubwords(
         ngram.push_back(word[j++]);
       }
       if (n >= args_->minn && !(n == 1 && (i == 0 || j == word.size()))) {
+        std::cout << ngram << ", ";  // 显示 subwords 
+        
         int32_t h = hash(ngram) % args_->bucket;
         pushHash(ngrams, h);
         if (substrings) {
@@ -195,14 +184,28 @@ void Dictionary::computeSubwords(
 }
 
 void Dictionary::initNgrams() {
-  for (size_t i = 0; i < size_; i++) {
+  std::cout << "\nDictionary::initNgrams()------------>" << std::endl;
+  std::cout << "subword 参数设置：\n";
+  std::cout << " minn:" << args_->minn << " maxn:" << args_->maxn << std::endl;
+
+  // 注意，这之前有一个按照词频排序的动作，所以 words_[] 顺序会变
+  for (size_t i = 0; i < size_; i++) {  
     std::string word = BOW + words_[i].word + EOW;
+    std::cout << "\n" << word << "\t计算Subwords: ";
     words_[i].subwords.clear();
     words_[i].subwords.push_back(i);
     if (words_[i].word != EOS) {
       computeSubwords(word, words_[i].subwords);
     }
+
+    std::cout << "\n\tsubwords[]存储（hash）: ";
+    for (int j =0; j<words_[i].subwords.size(); ++j){
+      std::cout << words_[i].subwords[j] << ", ";
+    }
   }
+
+  std::cout << "Dictionary::initNgrams()<------------" << std::endl;
+
 }
 
 bool Dictionary::readWord(std::istream& in, std::string& word) const {
@@ -231,10 +234,29 @@ bool Dictionary::readWord(std::istream& in, std::string& word) const {
   return !word.empty();
 }
 
+void Dictionary::add(const std::string& w) {
+  int32_t h = find(w);
+  ntokens_++;
+  if (word2int_[h] == -1) {
+    entry e;
+    e.word = w;
+    e.count = 1;
+    e.type = getType(w);
+    words_.push_back(e);
+    word2int_[h] = size_++;
+  } else {
+    words_[word2int_[h]].count++;
+  }
+}
+
 void Dictionary::readFromFile(std::istream& in) {
+  std::cout << "Dictionary::readFromFile()------------>" << std::endl;
+
   std::string word;
   int64_t minThreshold = 1;
   while (readWord(in, word)) {
+    std::cout << "读取word: " << word << std::endl;
+    
     add(word);
     if (ntokens_ % 1000000 == 0 && args_->verbose > 1) {
       std::cerr << "\rRead " << ntokens_ / 1000000 << "M words" << std::flush;
@@ -244,6 +266,14 @@ void Dictionary::readFromFile(std::istream& in) {
       threshold(minThreshold, minThreshold);
     }
   }
+  std::cout << "words_ 遍历：" << std::endl;
+	for (int i = 0; i<words_.size(); ++i) {
+    if (i<10000) {
+      std::cout << "<"<<  words_[i].word << ", " << words_[i].count << ">" << "| ";
+    }
+    else {break;}
+  }
+
   threshold(args_->minCount, args_->minCountLabel);
   initTableDiscard();
   initNgrams();
@@ -256,6 +286,9 @@ void Dictionary::readFromFile(std::istream& in) {
     throw std::invalid_argument(
         "Empty vocabulary. Try a smaller -minCount value.");
   }
+
+  std::cout << "Dictionary::readFromFile()<------------" << std::endl;
+
 }
 
 void Dictionary::threshold(int64_t t, int64_t tl) {

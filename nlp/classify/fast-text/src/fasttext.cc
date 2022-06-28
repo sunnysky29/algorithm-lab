@@ -741,6 +741,8 @@ std::shared_ptr<Matrix> FastText::createTrainOutputMatrix() const {
 }
 
 void FastText::train(const Args& args, const TrainCallback& callback) {
+  std::cout << "FastText::train()------------>" << std::endl;
+  
   args_ = std::make_shared<Args>(args);
   dict_ = std::make_shared<Dictionary>(args_);
   if (args_->input == "-") {
@@ -752,7 +754,7 @@ void FastText::train(const Args& args, const TrainCallback& callback) {
     throw std::invalid_argument(
         args_->input + " cannot be opened for training!");
   }
-  dict_->readFromFile(ifs);
+  dict_->readFromFile(ifs);  //读取训练文本
   ifs.close();
 
   if (!args_->pretrainedVectors.empty()) {
@@ -766,6 +768,9 @@ void FastText::train(const Args& args, const TrainCallback& callback) {
   bool normalizeGradient = (args_->model == model_name::sup);
   model_ = std::make_shared<Model>(input_, output_, loss, normalizeGradient);
   startThreads(callback);
+
+  std::cout << "FastText::train()<------------" << std::endl;
+
 }
 
 void FastText::abort() {

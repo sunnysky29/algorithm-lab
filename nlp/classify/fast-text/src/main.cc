@@ -363,12 +363,14 @@ void print_args(Args a){
   std::cout << "\tmaxn: " << a.maxn << std::endl;
   std::cout << "\tlr: " << a.lr << std::endl;
   std::cout << "\tepoch: " << a.epoch << std::endl;
+  std::cout << "\thasAutotune(): " << a.hasAutotune() << std::endl;
+
 
   std::cout << "参数解析结束" << std::endl;
 }
 
 void train(const std::vector<std::string> args) {
-  std::cout << "train()" << std::endl;
+  std::cout << "train()------------>" << std::endl;
   Args a = Args();
   a.parseArgs(args);
   print_args(a);
@@ -399,6 +401,7 @@ void train(const std::vector<std::string> args) {
   if (a.saveOutput) {
     fasttext->saveOutput(a.output + ".output");
   }
+  std::cout << "train()<------------" << std::endl;
 }
 
 void dump(const std::vector<std::string>& args) {
