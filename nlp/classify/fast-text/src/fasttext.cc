@@ -723,10 +723,16 @@ std::shared_ptr<Matrix> FastText::getInputMatrixFromFile(
 }
 
 std::shared_ptr<Matrix> FastText::createRandomMatrix() const {
+  std::cout << "FastText::createRandomMatrix()------------>" << std::endl;
+  std::cout << "nwords: " << dict_->nwords() << std::endl;
+  std::cout << "bucket: " << args_->bucket << std::endl;
+  std::cout << "dim: " << args_->dim << std::endl;
+
   std::shared_ptr<DenseMatrix> input = std::make_shared<DenseMatrix>(
       dict_->nwords() + args_->bucket, args_->dim);
   input->uniform(1.0 / args_->dim, args_->thread, args_->seed);
 
+  std::cout << "FastText::createRandomMatrix()<------------>" << std::endl;
   return input;
 }
 
