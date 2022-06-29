@@ -29,23 +29,7 @@ bool comparePairs(
     const std::pair<real, std::string>& l,
     const std::pair<real, std::string>& r);
 
-std::shared_ptr<Loss> FastText::createLoss(std::shared_ptr<Matrix>& output) {
-  loss_name lossName = args_->loss;
-  switch (lossName) {
-    case loss_name::hs:
-      return std::make_shared<HierarchicalSoftmaxLoss>(
-          output, getTargetCounts());
-    case loss_name::ns:
-      return std::make_shared<NegativeSamplingLoss>(
-          output, args_->neg, getTargetCounts());
-    case loss_name::softmax:
-      return std::make_shared<SoftmaxLoss>(output);
-    case loss_name::ova:
-      return std::make_shared<OneVsAllLoss>(output);
-    default:
-      throw std::runtime_error("Unknown loss");
-  }
-}
+
 
 FastText::FastText()
     : quant_(false), wordVectors_(nullptr), trainException_(nullptr) {}
@@ -723,6 +707,7 @@ std::shared_ptr<Matrix> FastText::getInputMatrixFromFile(
 }
 
 std::shared_ptr<Matrix> FastText::createRandomMatrix() const {
+  // 如何打印矩阵内容呢？？
   std::cout << "FastText::createRandomMatrix()------------>" << std::endl;
   std::cout << "nwords: " << dict_->nwords() << std::endl;
   std::cout << "bucket: " << args_->bucket << std::endl;
@@ -732,7 +717,7 @@ std::shared_ptr<Matrix> FastText::createRandomMatrix() const {
       dict_->nwords() + args_->bucket, args_->dim);
   input->uniform(1.0 / args_->dim, args_->thread, args_->seed);
 
-  std::cout << "FastText::createRandomMatrix()<------------>" << std::endl;
+  std::cout << "FastText::createRandomMatrix()<------------" << std::endl;
   return input;
 }
 
@@ -776,6 +761,32 @@ void FastText::train(const Args& args, const TrainCallback& callback) {
   startThreads(callback);
 
   std::cout << "FastText::train()<------------" << std::endl;
+
+}
+
+std::shared_ptr<Loss> FastText::createLoss(std::shared_ptr<Matrix>& output) {
+  std::cout << "FastText::createLoss()------------>" << std::endl;
+  loss_name lossName = args_->loss;
+
+  switch (lossName) {
+    case loss_name::hs:
+      std::cout << "lossName: hs" << std::endl;
+      return std::make_shared<HierarchicalSoftmaxLoss>(
+          output, getTargetCounts());
+    case loss_name::ns:
+      std::cout << "lossName: ns" << std::endl;
+      return std::make_shared<NegativeSamplingLoss>(
+          output, args_->neg, getTargetCounts());
+    case loss_name::softmax:
+      std::cout << "lossName: softmax" << std::endl;
+      std::cout << "FastText::createLoss()<------------" << std::endl;
+      return std::make_shared<SoftmaxLoss>(output);
+    case loss_name::ova:
+      std::cout << "lossName: ova" << std::endl;
+      return std::make_shared<OneVsAllLoss>(output);
+    default:
+      throw std::runtime_error("Unknown loss");
+  }
 
 }
 
