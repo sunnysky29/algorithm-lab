@@ -363,6 +363,8 @@ void print_args(Args a){
   std::cout << "\tmaxn: " << a.maxn << std::endl;
   std::cout << "\tlr: " << a.lr << std::endl;
   std::cout << "\tepoch: " << a.epoch << std::endl;
+  std::cout << "\tdim: " << a.dim << std::endl;
+  std::cout << "\tbucket: " << a.bucket << std::endl;
   std::cout << "\thasAutotune(): " << a.hasAutotune() << std::endl;
 
 
