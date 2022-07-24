@@ -4,16 +4,28 @@
 Time : 2022/6/26 21:10
 File : test.py
 
-
+参考哔站：[吃透Transformer！](https://www.bilibili.com/video/BV1Lt4y1h7hP?p=8&vd_source=abeb4ad4122e4eff23d97059cf088ab4)
 ==============================================================================
 """
 
-import traceback
-import torch
-import torch.nn as nn
-import math
-from torch.autograd import Variable
 
+class Encoder(nn.Module):
+    "Core encoder is a stack of N layers"
+    def __init__(self, layer, N):
+        super(Encoder, self).__init__()
+        self.layers = clones(layer, N)
+        self.norm = LayerNorm(layer.size)
+        
+    def forward(self, x, mask):
+        "Pass the input (and mask) through each layer in turn."
+        for layer in self.layers:
+            x = layer(x, mask)
+        return self.norm(x)
+
+
+# ## Encoder
+# 结构图如下：
+# <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h4i5wv3zfwj20qi0xkdik.jpg" alt="image-20220724175041623" style="zoom:67%;height:800px" />
 
 class Embeddings(nn.Module):
     """
