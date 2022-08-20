@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 """
 A from scratch implementation of Transformer network,
