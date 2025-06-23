@@ -134,3 +134,5 @@ test
 nlp/classify/fast-text/build
 nlp/classify/fast-text/.*
 data/yolo
+
+tmp
