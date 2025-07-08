@@ -136,3 +136,4 @@ nlp/classify/fast-text/.*
 data/yolo
 
 tmp
+~*
