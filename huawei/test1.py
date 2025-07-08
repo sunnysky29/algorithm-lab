@@ -74,11 +74,11 @@ def main_my():
         if len(p)>1:  #  处理列表
             for p_i in p:
                 on_time[p_i] = t
-                q.append((p_i, t))
+                q.append((t, p_i))
         else:
             on_time[p[0]] = t
-            q.append((p[0], t))
-    print(f'初始q: {q} ???') #  deque([(6, 1), (0, 0), (3, 0)]) ???
+            q.append((t, p[0]))
+    print(f'初始q: {q} ???') # 始q: deque([(1, 6), (0, 0), (0, 3)]) ???
     print(f'初始on_time: {on_time} ???')
     
     time = 0 # 记录当前时间
@@ -87,20 +87,20 @@ def main_my():
     while q:
         level_size = len(q)
         for _ in range(level_size):
-            pos, t = q.popleft()
+            t, pos= q.popleft()
             if t==time:
                 # 向左右两个方向传播
                 for dx in (-1, 1):
-                    next_pos = (pos + dx) % n  # 环形结构
+                    next_pos = (pos + dx) % n  # 环形结构 处理！！
                     next_time = t + 1
                     if on_time[next_pos] == -1:
                         on_time[next_pos] = next_time
-                        q.append((next_pos, next_time))
+                        q.append((next_time, next_pos, ))
             else: #  需要延迟启动（因为手动启动时候，时间不固定）
-                q.append((pos, t))
+                q.append((t, pos))
         time += 1
 
-    print(f'最终 on_time: {on_time} ???')
+    print(f'最终 on_time: {on_time} ???')  # [0, 1, 1, 0, 1, 2, 1, 1] ???
     # 找出最晚被启动的发动机时间 & 发动机编号
     latest_time = max(on_time)
     result = [i for i, t in enumerate(on_time) if t == latest_time]
