@@ -89,7 +89,6 @@ def main_other():
     s = input().strip()
     minArr = list(s)
 
-
     minArr.sort() # 先排序一把
     # 边界判断
     if s == "".join(minArr):# 这里因为minArr已经是list了。
